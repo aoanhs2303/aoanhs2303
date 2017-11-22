@@ -6386,15 +6386,15 @@ QUnit.done( function( details ) {
 		id( "qunit-testresult" ).innerHTML = html;
 	}
 
-	if ( config.altertitle && document.title ) {
-
-		// Show ✖ for good, ✔ for bad suite result in title
-		// use escape sequences in case file gets loaded with non-utf-8-charset
-		document.title = [
-			( details.failed ? "\u2716" : "\u2714" ),
-			document.title.replace( /^[\u2714\u2716] /i, "" )
-		].join( " " );
-	}
+//	if ( config.altertitle && document.title ) {
+//
+//		// Show ✖ for good, ✔ for bad suite result in title
+//		// use escape sequences in case file gets loaded with non-utf-8-charset
+//		document.title = [
+//			( details.failed ? "\u2716" : "\u2714" ),
+//			document.title.replace( /^[\u2714\u2716] /i, "" )
+//		].join( " " );
+//	}
 
 	// Clear own sessionStorage items if all tests passed
 	if ( config.reorder && defined.sessionStorage && details.failed === 0 ) {

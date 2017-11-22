@@ -9,27 +9,49 @@
     <title> AoAnhs2303's Blog </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/ico" href="images/favicon.ico" />
     <script type="text/javascript" src="vendor/bootstrap.js"></script>
     <script type="text/javascript" src="vendor/angular.js"></script>
     <script type="text/javascript" src="vendor/angular-route.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <link rel="stylesheet" href="vendor/bootstrap.css">
     <link rel="stylesheet" href="vendor/font-awesome.css">
+    <link rel="stylesheet" href="vendor/hamberger.css">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109040970-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-109040970-1');
+    </script>
+
     
 </head>
 
 <body>
+
     <header>
         <div class="container top-menu">
             <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="togger-icon">
-          <div class="one-line-togger"></div>
-          <div class="one-line-togger"></div>
-          <div class="one-line-togger"></div>
-        </span>
-      </button>
+                    <!-- <span class="togger-icon">
+                        <div class="one-line-togger"></div>
+                        <div class="one-line-togger"></div>
+                        <div class="one-line-togger"></div>
+                    </span> -->
+
+                    <div class="wrapper-menu xxx toggle-icon">
+                        <div class="line-menu half start"></div>
+                        <div class="line-menu"></div>
+                        <div class="line-menu half end"></div>
+                    </div>
+
+
+                </button>
                 <a class="navbar-brand" href="index.php"><span class="red">A</span>o<span class="red">A</span>nhs2303</a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
@@ -40,7 +62,16 @@
                             <a class="nav-link" href="#">News</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Tutorial</a>
+                            <a class="nav-link" href="#">Relaxing &nbsp;<i class="fa fa-caret-down"></i></a>
+                            <ul class="sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="picture.php">Xem ảnh</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Nghe nhạc</a>
+                                </li>
+                                
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Project &nbsp;<i class="fa fa-caret-down"></i></a>
@@ -79,16 +110,24 @@
             <p id="desc">Website Developer</p>
         </div>
     </section>
+    <div class="container">
+    <?php 
+    //Xuat thong bao
+    echo Success();
+    echo Error();
+    ?>
+    </div>
+    
     <section class="content">
         <div class="container">
+            <div class="clearfix"></div>
             <div class="row">
-                
-                <div class="col-sm-8 big-col-8">
+                <div class="col-sm-8 col-12 big-col-8">
                     <div class="feature">
                         <div class="header-feature">
                             <?php 
                                 global $Connection;
-                                $Query = "SELECT * FROM post WHERE id = 30";
+                                $Query = "SELECT * FROM post WHERE id = 10";
                                 $Execute =  mysqli_query($Connection, $Query);
                                 while($DataRow = mysqli_fetch_array($Execute)) {
                                 $PostId = $DataRow['id'];
@@ -133,7 +172,7 @@
                                 $Query = "SELECT * FROM post WHERE id LIKE '%$Search%' OR title LIKE '%$Search%' OR category LIKE '%$Search%' OR content LIKE '%$Search%'";
 
                             } else {
-                                $Query = "SELECT * FROM post ORDER BY datetime desc LIMIT $ShowPostFrom, 4";
+                                $Query = "SELECT * FROM post ORDER BY id desc LIMIT $ShowPostFrom, 4";
                             }
                             $Execute =  mysqli_query($Connection, $Query);
                             while($DataRow = mysqli_fetch_array($Execute)) {
@@ -161,7 +200,15 @@
                                                 <span><i class="fa fa-tag"></i> <?php echo $Category; ?></span>
                                                 <p><?php echo $Content; ?></p>
                                                 <a href="fullblog.php?id=<?php echo $PostId; ?>" class="btn btn-info read-more">Read more&nbsp;<i class="fa fa-angle-double-right"></i></a>
-                                                <a href="" class="btn btn-success share">Share&nbsp;<i class="fa fa-share-alt"></i></a>
+                                                <?php
+                                                //$actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                                                $actual_link = "http://aoanhs2303.tk/fullblog.php?id=" .  $PostId;
+                                                //echo $actual_link;
+                                                $actual_link = urlencode($actual_link);
+                                                ?>
+                                                <?php
+                                                    echo '<iframe src="https://www.facebook.com/plugins/share_button.php?href='.$actual_link.'&layout=button_count&size=large&mobile_iframe=true&width=84&height=28&appId" width="84" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>';
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
@@ -228,7 +275,7 @@
                       </ul>
                     </nav>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4 col-12 big-col-4">
 
                     <div class="about-me">
                         <div class="top-ab">
@@ -250,6 +297,12 @@
                             $ExecuteComment = mysqli_query($Connection, $QueryComment);
                             $NumCmt = mysqli_fetch_array($ExecuteComment);
                             $NumberComments = array_shift($NumCmt);
+                        
+                            //Num of Picture
+                            $QueryPicture = "SELECT COUNT(*) FROM picture";
+                            $ExecutePicture = mysqli_query($Connection, $QueryPicture);
+                            $NumPicture = mysqli_fetch_array($ExecutePicture);
+                            $NumberPictures = array_shift($NumPicture);
                         ?>
                         <div class="bottom-ab">
                             <div class="row">
@@ -260,18 +313,29 @@
                                     <b>Comments</b><br><?php echo $NumberComments ?>
                                 </div>
                                 <div class="col-4 text-center">
-                                    <b>Share</b><br>0
+                                    <b>Pictures</b><br><?php echo $NumberPictures; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="follow-me">
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="fa fa-envelope" style="color: #dd4b39"></i></div>
-                            <input type="email" placeholder="Enter your email" class="form-control">
-                            <div class="input-group-addon"><i class="fa fa-check" style="color: #2ecc71"></i></div>
-                        </div>
+                        <form action="sendmail.php" method="post">
+                            <div class="input-group gopy-mail">
+                                <div class="input-group-addon"><i class="fa fa-envelope" style="color: #dd4b39"></i></div>
+                                <input type="email" name="emailaddress" placeholder="Enter your email" class="form-control">
+                                <!-- <div class="input-group-addon"><i class="fa fa-check" style="color: #2ecc71"></i></div> -->
+                            </div>
+                            <div class="input-group gopy-noidung">
+                                <div class="input-group-addon"><i class="fa fa-paper-plane" style="color: #dd4b39"></i></div>
+                                <textarea name="gopy" id="" cols="40" rows="2" placeholder="Nhập góp ý" class="form-control"></textarea>
+                                <!-- <div class="input-group-addon"><i class="fa fa-check" style="color: #2ecc71"></i></div> -->
+                            </div>
+                            <div class="input-group">
+                                <input type="submit" name="Submit" class="btn btn-danger btn-block btn-sm btn-gopy" value="Góp ý">
+                            </div>
+                        </form>
+                        
                     </div>
                     
                                         
@@ -373,14 +437,65 @@
                             </div>
                         </div>
                     </div>
+ 
+
+                    <div class="angular-trending">
+                        <div class="all-tab">
+                            <div class="tab-header">                   
+                                <ul class="tab-he tab-green">
+                                    <li class="active apptab"><a href=""ng-click="changeTab(1)"><i class="fa fa-bolt"></i> Web Application</a></li>
+                            
+                                </ul>
+                                <div class="tabs-content">
+                                <div>
+                                <?php 
+                                    $Query = "SELECT * FROM web_app ORDER BY datetime desc";
+                                    $Execute =  mysqli_query($Connection, $Query);
+                                    while($DataRow = mysqli_fetch_array($Execute)) {
+                                    $PostId = $DataRow['id'];
+                                    $DateTime = $DataRow['datetime'];
+                                    $DateTime = substr($DateTime, 0, 18);
+                                    $Titile = $DataRow['title'];
+                                    $Image = $DataRow['image'];
+                                    $Link = $DataRow['link'];
+                                ?>
+                                <div class="one-news-small">
+                                
+                                    <div class="row">
+                                        <div class="col-3 no-padding-right">
+                                            <img src="upload/<?php echo $Image; ?>" alt="" class="img-fluid">
+                                        </div>
+                                        <div class="col-9">
+                                            <a href="<?php echo $Link; ?>"><h5 style="margin-bottom: 0px; font-size:16px"><?php echo $Titile; ?></h5></a>
+                                            <div class="info-news">
+                                                <span><i class="fa fa-calendar"></i>&nbsp;<?php echo $DateTime; ?></span>
+                                            </div>
+                                            <div class="info-news">
+                                                <span><i class="fa fa-eye"></i> 30</span>
+                                                <span><i class="fa fa-comment"></i> 3</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php } ?>
+                            </div>
+                         
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                 </div>
             </div>
         </div>
     </section>
     <footer>
-        <div class="container">
+        <div class="container footerbig">
             <div class="row">
-                <div class="col-8">
+                <div class="col-sm-8 col-12">
                     <ul class="footer">
                         <li>
                             <a href="">Homepage</a>
@@ -395,12 +510,13 @@
                             <a href="">Tutorial</a>
                         </li>
                     </ul>
-                    <p>Designed with all the <i class="fa fa-heart" style="color: #e74c3c"></i> in the world by <b style="color: #FFF">Aoanhs2303</b>.</p>
-                    <p>Copyright © 2017 Aoanhs2303's Blog. All rights reserved.</p>
+                    <p class="ctf">Designed with all the <i class="fa fa-heart" style="color: #e74c3c"></i> in the world by <b style="color: #FFF">Aoanhs2303</b>.</p>
+                    <p class="ctf">Copyright © 2017 Aoanhs2303's Blog. All rights reserved.</p>
                 </div>
-                <div class="col-4">
+                <div class="col-sm-4 col-12">
                     <p class="fb">Find me on: <a href="https://www.facebook.com/tranlucs2303"><i class="fa fa-facebook social"></i></a></p>
                     <p class="emailname"><i class="fa fa-envelope" style="color: #e74c3c"></i> Email: <b>trannhulucs2303@gmail.com</b></p>
+                    <a href="dashboard.php" style="color: #CCC" class="db"><i style="color: #e67e22" class="fa fa-caret-square-o-right"></i>&nbsp; Go to Dashboard</a>
                 </div>
             </div>
             

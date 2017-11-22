@@ -9,7 +9,14 @@
         $Content = $_POST['post'];
         $Category = $_POST['Category'];
         $Image = $_FILES["Image"]["name"];
-        $Target="upload/".basename($_FILES["Image"]["name"]);    
+        $Target="upload/".basename($_FILES["Image"]["name"]); 
+        
+        if($Image) {
+            
+        } else {
+            $Image = $_POST['imageBefore'];
+        }
+            
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $CurrentTime = time();
         $DateTime = strftime("%B-%m-%Y %H:%M:%S", $CurrentTime);
@@ -17,7 +24,7 @@
         if (empty($Category) || empty($Title) || empty($Content)) {
             $_SESSION["ErrorMessage"] = "Sao mày đéo điền gì hết vậy";
             Redirect_to("addnewpost.php");
-        } elseif(strlen($Title) > 50) {
+        } elseif(strlen($Title) > 500) {
             $_SESSION["ErrorMessage"] = "Điền nhiều thế. Dưới 50 ký tự thôi nhé";
             Redirect_to("addnewpost.php");
         } else {
@@ -44,6 +51,7 @@
     <title> Example </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/ico" href="images/favicon.ico" />
     <script type="text/javascript" src="vendor/bootstrap.js"></script>
     <script type="text/javascript" src="vendor/angular.js"></script>
     <script type="text/javascript" src="vendor/angular-route.js"></script>
@@ -71,6 +79,7 @@
                     <li class="nav-item"><a  class="nav-link active" href="dashboard.php"><i class="fa fa-home"></i>&nbsp;Dashboard</a></li>
                     <li class="nav-item"><a  class="nav-link" href="addnewpost.php"><i class="fa fa-file-text-o"></i>&nbsp;Add New Post</a></li>
                     <li class="nav-item"><a  class="nav-link" href="addnewproject.php"><i class="fa fa-rocket"></i>&nbsp;Add New Project</a></li>
+                    <li class="nav-item"><a  class="nav-link" href="addnewpicture.php"><i class="fa fa-picture-o"></i>&nbsp;Picture</a></li>
                     <li class="nav-item"><a  class="nav-link" href="addnewcategory.php"><i class="fa fa-pie-chart"></i>&nbsp;Categories</a></li>
                     <li class="nav-item"><a  class="nav-link" href=""><i class="fa fa-comments"></i>&nbsp;Comment</a></li>
                     <li class="nav-item"><a class="nav-link"  href="index.php"><i class="fa fa-line-chart"></i>&nbsp;Live blog</a></li>
@@ -123,6 +132,7 @@
                         </div>
                         
                         <div class="form-group">
+                        <input type="hidden" name="imageBefore" value="<?php echo $Image; ?>">
                             <b>Hình đã được chọn trước đó: </b>
                         <img src="upload/<?php echo $Image; ?>" alt="" style="width: 300px" class="rounded-top">
                             <br>

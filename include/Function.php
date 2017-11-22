@@ -7,7 +7,6 @@ function Redirect_to($New_Location) {
     header("Location:".$New_Location);
     exit;
 }
-
 function Login_Attemp($Username, $Password) {
     global $Connection;
     $QueryLogin = "SELECT * FROM admin WHERE username = '$Username' AND password ='$Password'";
@@ -27,7 +26,7 @@ function Login() {
 
 function Confirm_Login() {
     if(!Login()) {
-        $_SESSION["ErrorMessage"] = "Đăng nhập đã nhé !";
+        $_SESSION["ErrorMessage"] = "Dang nhap da nhe !";
         Redirect_to("login.php");
     }
 }

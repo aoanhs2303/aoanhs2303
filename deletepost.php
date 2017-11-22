@@ -26,6 +26,7 @@
     <title> Example </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/ico" href="images/favicon.ico" />
     <script type="text/javascript" src="vendor/bootstrap.js"></script>
     <script type="text/javascript" src="vendor/angular.js"></script>
     <script type="text/javascript" src="vendor/angular-route.js"></script>
@@ -52,6 +53,8 @@
                 <ul class="dashboard nav flex-column nav-pills">
                     <li class="nav-item"><a  class="nav-link active" href="dashboard.php"><i class="fa fa-home"></i>&nbsp;Dashboard</a></li>
                     <li class="nav-item"><a  class="nav-link" href="addnewpost.php"><i class="fa fa-file-text-o"></i>&nbsp;Add New Post</a></li>
+                    <li class="nav-item"><a  class="nav-link" href="addnewproject.php"><i class="fa fa-rocket"></i>&nbsp;Add New Project</a></li>
+                    <li class="nav-item"><a  class="nav-link" href="addnewpicture.php"><i class="fa fa-picture-o"></i>&nbsp;Picture</a></li>
                     <li class="nav-item"><a  class="nav-link" href="addnewproject.php"><i class="fa fa-rocket"></i>&nbsp;Add New Project</a></li>
                     <li class="nav-item"><a  class="nav-link" href="addnewcategory.php"><i class="fa fa-pie-chart"></i>&nbsp;Categories</a></li>
                     <li class="nav-item"><a  class="nav-link" href=""><i class="fa fa-comments"></i>&nbsp;Comment</a></li>

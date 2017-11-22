@@ -46,15 +46,26 @@ if(isset($_POST['Submit'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="vendor/bootstrap.js"></script>
+    <link rel="icon" type="image/ico" href="images/favicon.ico" />
     <script type="text/javascript" src="vendor/angular.js"></script>
     <script type="text/javascript" src="vendor/angular-route.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <link rel="stylesheet" href="vendor/bootstrap.css">
     <link rel="stylesheet" href="vendor/font-awesome.css">
+    <link rel="stylesheet" href="vendor/hamberger.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="hightlight/styles/atom-one-dark.css">
     <script src="hightlight/highlight.pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109040970-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-109040970-1');
+    </script>
 </head>
 
 <body>
@@ -63,9 +74,14 @@ if(isset($_POST['Submit'])) {
             <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="togger-icon">
+          <!-- <div class="one-line-togger"></div>
           <div class="one-line-togger"></div>
-          <div class="one-line-togger"></div>
-          <div class="one-line-togger"></div>
+          <div class="one-line-togger"></div> -->
+          <div class="wrapper-menu xxx toggle-icon">
+            <div class="line-menu half start"></div>
+            <div class="line-menu"></div>
+            <div class="line-menu half end"></div>
+        </div>
         </span>
       </button>
                 <a class="navbar-brand" href="index.php"><span class="red">A</span>o<span class="red">A</span>nhs2303</a>
@@ -78,7 +94,16 @@ if(isset($_POST['Submit'])) {
                             <a class="nav-link" href="#">News</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Turtorial</a>
+                            <a class="nav-link" href="#">Relaxing &nbsp;<i class="fa fa-caret-down"></i></a>
+                            <ul class="sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="picture.php">Xem ảnh</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Nghe nhạc</a>
+                                </li>
+                                
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Project &nbsp;<i class="fa fa-caret-down"></i></a>
@@ -116,11 +141,18 @@ if(isset($_POST['Submit'])) {
             <p id="desc">Website Developer</p>
         </div>
     </section>
+    <div class="container">
+    <?php 
+    //Xuat thong bao
+    echo Success();
+    echo Error();
+    ?>
+    </div>
     <section class="content">
         <div class="container">
             <div class="row">
                 
-                <div class="col-sm-8 big-col-8">
+                <div class="col-md-8 big-col-8">
                     <div class="feature">
                         <?php 
                         global $Connection;
@@ -167,10 +199,10 @@ if(isset($_POST['Submit'])) {
                         ?>
                         <div class="one-comment mt-1" style="background-color: #F6F7F9; padding: 10px">
                             <div class="row">
-                                <div class="col-2">
+                                <div class="col-sm-2 col-3">
                                     <img src="http://sohanews.sohacdn.com/2016/photo-7-1467618024092.jpg" alt="" class="img-fluid rounded">
                                 </div>
-                                <div class="col-sm-10 no-padding-left">
+                                <div class="col-sm-10 col-9 no-padding-left">
                                     <p class="name" style="margin-bottom: 0px; font-weight: bold"><?php echo $Name; ?></p>
                                     <div class="info-news">
                                         <span><i class="fa fa-user"></i> AoAnhs2303</span>
@@ -190,10 +222,10 @@ if(isset($_POST['Submit'])) {
                <hr>
                 <div class="comment-form">
                     <h3 class="form-comm">Ý kiến của bạn</h3>
-                    <form class="cmform" action="fullblog.php?id=<?php echo $PostId; ?>" method="post">
+                    <!-- <form class="cmform" action="fullblog.php?id=<?php echo $PostId; ?>" method="post"> -->
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="text" name="nameUser" class="form-control" placeholder="Enter your name">
+                                <input type="text" name="nameUser" class="form-control usname" placeholder="Enter your name">
                                 <span class="input-group-addon">
                                     <i class="fa fa-user"></i>
                                 </span>
@@ -201,18 +233,71 @@ if(isset($_POST['Submit'])) {
                             
                         </div>
                         <div class="form-group">
-                            <textarea name="commentUser" cols="30" rows="3" class="form-control" placeholder="Give me your opinion"></textarea>
+                            <textarea name="commentUser" cols="30" rows="3" class="form-control usercmt" placeholder="Give me your opinion"></textarea>
                         </div>
                         <div class="form-group">
-                            <input type="submit" name="Submit" class="btn btn-info" value="Gửi bình luận" style="border-radius: 0px; background-color: #e67e22;border-color: #e67e22;">
+                            <input type="button" name="Submit" class="btn btn-info commentajax" value="Gửi bình luận" style="border-radius: 0px; background-color: #e67e22;border-color: #e67e22;">
                         </div>
-                    </form>
+                    <!-- </form> -->
                 </div>
+                <script>
+                    $('.commentajax').click(function(event) {
 
+                        name = $('.usname').val();
+                        comment = $('.usercmt').val();
+                        id = '<?php echo $_GET['id'] ?>'
+
+                        $.ajax({
+                            url: 'comment.php',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                user: $('.usname').val(),
+                                comment: $('.usercmt').val(),
+                                post_id: '<?php echo $_GET['id'] ?>'
+                            },
+                        })
+                        .done(function() {
+                            console.log("success");
+                        })
+                        .fail(function() {
+                            console.log("error");
+                        })
+                        .always(function() {
+                            var dateObj = new Date();
+                            var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                            var day = dateObj.getUTCDate();
+                            var year = dateObj.getUTCFullYear();
+
+                            newdate = year + "/" + month + "/" + day;
+                            var noidung = `<div class="one-comment mt-1" style="background-color: #F6F7F9; padding: 10px">
+                            <div class="row">
+                                <div class="col-sm-2 col-3">
+                                    <img src="http://sohanews.sohacdn.com/2016/photo-7-1467618024092.jpg" alt="" class="img-fluid rounded">
+                                </div>
+                                <div class="col-sm-10 col-9 no-padding-left">
+                                    <p class="name" style="margin-bottom: 0px; font-weight: bold">`+$('.usname').val()+`</p>
+                                    <div class="info-news">
+                                        <span><i class="fa fa-user"></i> AoAnhs2303</span>
+                                        <span><i class="fa fa-calendar"></i> `+newdate+`</span>
+                                    </div>
+                                    <div class="content-cm" style="font-size: 14px">
+                                        `+$('.usercmt').val()+`
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                            $('.comment').append(noidung);
+                            $('.usname').val('');
+                            $('.usercmt').val('');
+                        });
+                        
+                    });
+                </script>
                     
 
                 </div>
-                <div class="col-sm-4">
+                <div class="col-md-4 col-12 big-col-4">
 
                     <div class="about-me">
                         <div class="top-ab">
@@ -221,28 +306,58 @@ if(isset($_POST['Submit'])) {
                         </div>
                         <div class="avatar">
                             <img src="images/avt.jpg" alt="" width="60px" height="60px" class="rounded-circle">
-                        </div>
+                        </div>       
+                       <?php 
+                            global $Connection;
+                            //Num of post
+                            $QueryPost = "SELECT COUNT(*) FROM post";
+                            $ExecutePost = mysqli_query($Connection, $QueryPost);
+                            $NumPost = mysqli_fetch_array($ExecutePost);
+                            $PostsNumber = array_shift($NumPost);
+                            //Num of comment
+                            $QueryComment = "SELECT COUNT(*) FROM comments";
+                            $ExecuteComment = mysqli_query($Connection, $QueryComment);
+                            $NumCmt = mysqli_fetch_array($ExecuteComment);
+                            $NumberComments = array_shift($NumCmt);
+                        
+                            //Num of Picture
+                            $QueryPicture = "SELECT COUNT(*) FROM picture";
+                            $ExecutePicture = mysqli_query($Connection, $QueryPicture);
+                            $NumPicture = mysqli_fetch_array($ExecutePicture);
+                            $NumberPictures = array_shift($NumPicture);
+                        ?>
                         <div class="bottom-ab">
                             <div class="row">
                                 <div class="col-4 text-center">
-                                    <b>Posts</b><br>1000
+                                    <b>Posts</b><br><?php echo $PostsNumber; ?>
                                 </div>
                                 <div class="col-4 text-center">
-                                    <b>Comments</b><br>1000
+                                    <b>Comments</b><br><?php echo $NumberComments ?>
                                 </div>
                                 <div class="col-4 text-center">
-                                    <b>Share</b><br>1000
+                                    <b>Pictures</b><br><?php echo $NumberPictures; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="follow-me">
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="fa fa-envelope" style="color: #dd4b39"></i></div>
-                            <input type="email" placeholder="Enter your email" class="form-control">
-                            <div class="input-group-addon"><i class="fa fa-check" style="color: #2ecc71"></i></div>
-                        </div>
+                        <form action="sendmail.php" method="post">
+                            <div class="input-group gopy-mail">
+                                <div class="input-group-addon"><i class="fa fa-envelope" style="color: #dd4b39"></i></div>
+                                <input type="email" name="emailaddress" placeholder="Enter your email" class="form-control">
+                                <!-- <div class="input-group-addon"><i class="fa fa-check" style="color: #2ecc71"></i></div> -->
+                            </div>
+                            <div class="input-group gopy-noidung">
+                                <div class="input-group-addon"><i class="fa fa-paper-plane" style="color: #dd4b39"></i></div>
+                                <textarea name="gopy" id="" cols="40" rows="2" placeholder="Nhập góp ý" class="form-control"></textarea>
+                                <!-- <div class="input-group-addon"><i class="fa fa-check" style="color: #2ecc71"></i></div> -->
+                            </div>
+                            <div class="input-group">
+                                <input type="submit" name="Submit" class="btn btn-danger btn-block btn-sm btn-gopy" value="Góp ý">
+                            </div>
+                        </form>
+                        
                     </div>
                     
                                         
@@ -344,6 +459,55 @@ if(isset($_POST['Submit'])) {
                             </div>
                         </div>
                     </div>
+
+                    <div class="angular-trending">
+                        <div class="all-tab">
+                            <div class="tab-header">                   
+                                <ul class="tab-he tab-green">
+                                    <li class="active apptab"><a href=""ng-click="changeTab(1)"><i class="fa fa-bolt"></i> Web Application</a></li>
+                            
+                                </ul>
+                                <div class="tabs-content">
+                                <div>
+                                <?php 
+                                    $Query = "SELECT * FROM web_app ORDER BY datetime desc";
+                                    $Execute =  mysqli_query($Connection, $Query);
+                                    while($DataRow = mysqli_fetch_array($Execute)) {
+                                    $PostId = $DataRow['id'];
+                                    $DateTime = $DataRow['datetime'];
+                                    $DateTime = substr($DateTime, 0, 18);
+                                    $Titile = $DataRow['title'];
+                                    $Image = $DataRow['image'];
+                                    $Link = $DataRow['link'];
+                                ?>
+                                <div class="one-news-small">
+                                
+                                    <div class="row">
+                                        <div class="col-3 no-padding-right">
+                                            <img src="upload/<?php echo $Image; ?>" alt="" class="img-fluid">
+                                            
+                                        </div>
+                                        <div class="col-9">
+                                            <a href="<?php echo $Link; ?>"><h5 style="margin-bottom: 0px; font-size:16px"><?php echo $Titile; ?></h5></a>
+                                            <div class="info-news">
+                                                <span><i class="fa fa-calendar"></i>&nbsp;<?php echo $DateTime; ?></span>
+                                            </div>
+                                            <div class="info-news">
+                                                <span><i class="fa fa-eye"></i> 30</span>
+                                                <span><i class="fa fa-comment"></i> 3</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php } ?>
+                            </div>
+                         
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -372,6 +536,7 @@ if(isset($_POST['Submit'])) {
                 <div class="col-4">
                     <p class="fb">Find me on: <a href="https://www.facebook.com/tranlucs2303"><i class="fa fa-facebook social"></i></a></p>
                     <p class="emailname"><i class="fa fa-envelope" style="color: #e74c3c"></i> Email: <b>trannhulucs2303@gmail.com</b></p>
+                    <a href="dashboard.php" style="color: #CCC"><i style="color: #e67e22" class="fa fa-caret-square-o-right"></i>&nbsp; Go to Dashboard</a>
                 </div>
             </div>
             
